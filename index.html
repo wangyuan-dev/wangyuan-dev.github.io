@@ -6,136 +6,328 @@
 <title>YuanDev Studio — Independent Android Developer</title>
 <style>
   :root {
-    --bg: #fafafa;
-    --text: #1a1a1a;
-    --muted: #666;
-    --accent: #2563eb;
-    --border: #e5e5e5;
+    --bg: #05060a;
+    --bg-2: #0a0d16;
+    --text: #eef1f8;
+    --muted: #8b93a7;
+    --accent: #4f8cff;
+    --accent-2: #7c5cff;
+    --border: rgba(255,255,255,0.08);
+    --glow: rgba(79,140,255,0.35);
   }
   * { box-sizing: border-box; }
-  body {
+  html, body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 0;
     background: var(--bg);
     color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Animated gradient background */
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(600px circle at 20% 10%, rgba(79,140,255,0.15), transparent 60%),
+      radial-gradient(500px circle at 85% 25%, rgba(124,92,255,0.14), transparent 60%),
+      radial-gradient(700px circle at 50% 90%, rgba(79,140,255,0.10), transparent 60%);
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    100% { transform: translate3d(-20px, 20px, 0) scale(1.05); }
+  }
+
+  /* subtle grid */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 40%, transparent 90%);
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 100px 24px 80px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border: 1px solid rgba(79,140,255,0.3);
+    border-radius: 999px;
+    background: rgba(79,140,255,0.08);
+    margin-bottom: 28px;
+  }
+  .badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px 2px var(--glow);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  h1 {
+    font-size: 44px;
+    font-weight: 800;
+    margin: 0 0 14px;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #ffffff 20%, #9db4ff 60%, #7c5cff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .tagline {
+    font-size: 18px;
+    color: var(--muted);
+    margin-bottom: 56px;
+    max-width: 480px;
     line-height: 1.6;
   }
-  .container {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 80px 24px 60px;
-  }
-  .badge {
-    display: inline-block;
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  h1 {
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0 0 12px;
-    letter-spacing: -0.02em;
-  }
-  .tagline {
-    font-size: 17px;
-    color: var(--muted);
-    margin-bottom: 48px;
-  }
+
   section {
-    margin-bottom: 40px;
+    margin-bottom: 44px;
   }
+
   h2 {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  .glass-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    backdrop-filter: blur(12px);
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .glass-card:hover {
+    border-color: rgba(79,140,255,0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px -12px rgba(79,140,255,0.25);
+  }
+
+  .about-text {
+    font-size: 15px;
+    color: #c3c9dc;
+    line-height: 1.75;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    background: linear-gradient(135deg, #fff, #9db4ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .stat-label {
+    font-size: 12px;
     color: var(--muted);
-    margin-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 8px;
+    margin-top: 2px;
   }
+
   .app-card {
-    padding: 16px 0;
+    padding: 22px 0;
     border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
   }
-  .app-card:last-child {
-    border-bottom: none;
+  .app-card:first-child { padding-top: 0; }
+  .app-card:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .app-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 8px 20px -6px rgba(79,140,255,0.5);
   }
+  .app-info { flex: 1; }
   .app-name {
     font-weight: 600;
     font-size: 16px;
+    color: var(--text);
+  }
+  .app-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.6;
   }
   .app-status {
     display: inline-block;
-    font-size: 12px;
-    color: var(--accent);
-    background: #eff6ff;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-left: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #7cf7c4;
+    background: rgba(124,247,196,0.1);
+    border: 1px solid rgba(124,247,196,0.25);
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    margin-top: 2px;
   }
-  .app-desc {
+
+  .contact-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-size: 14px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .about-text {
-    font-size: 15px;
-    color: #333;
-  }
-  .contact a {
-    color: var(--accent);
+    color: var(--text);
     text-decoration: none;
+    padding: 12px 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    transition: all 0.25s ease;
   }
-  .contact a:hover {
-    text-decoration: underline;
+  .contact-link:hover {
+    border-color: var(--accent);
+    background: rgba(79,140,255,0.08);
+    transform: translateY(-1px);
   }
+
   footer {
-    margin-top: 60px;
-    font-size: 13px;
-    color: #999;
+    margin-top: 70px;
+    font-size: 12.5px;
+    color: #555c70;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 34px; }
+    .container { padding: 70px 20px 60px; }
+    .stats-row { gap: 20px; }
   }
 </style>
 </head>
 <body>
+  <div class="bg-glow"></div>
+  <div class="bg-grid"></div>
+
   <div class="container">
-    <div class="badge">Independent Developer</div>
+    <div class="badge">Available for opportunities</div>
     <h1>YuanDev Studio</h1>
-    <p class="tagline">Building useful, no-nonsense utility apps for everyday users.</p>
+    <p class="tagline">
+      Independent Android developer crafting fast, no-nonsense utility apps —
+      built with care, shipped without the bloat.
+    </p>
 
     <section>
       <h2>About</h2>
-      <p class="about-text">
-        I'm an Android developer with 7+ years of professional experience,
-        specializing in Kotlin, Jetpack Compose, and modern Android architecture.
-        My background includes work on financial trading platforms and
-        international consumer applications. I now build independent
-        utility apps focused on solving real, everyday problems — simple,
-        fast, and respectful of your time and storage.
-      </p>
+      <div class="glass-card">
+        <p class="about-text">
+          7+ years of professional Android development experience — Kotlin,
+          Jetpack Compose, modern MVVM architecture, and end-to-end app
+          publishing. Background spans fintech trading platforms and
+          international consumer products. Now building independent tools
+          focused on solving real problems, fast performance, and respecting
+          the user's time.
+        </p>
+        <div class="stats-row">
+          <div>
+            <div class="stat-num">7+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div>
+            <div class="stat-num">Kotlin</div>
+            <div class="stat-label">Core Stack</div>
+          </div>
+          <div>
+            <div class="stat-num">Global</div>
+            <div class="stat-label">Target Market</div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section>
       <h2>Apps</h2>
-      <div class="app-card">
-        <span class="app-name">Duplicate Photo Cleaner</span>
-        <span class="app-status">In Development</span>
-        <div class="app-desc">Find and remove duplicate &amp; similar photos to free up storage — fast, with no intrusive ads.</div>
+      <div class="glass-card">
+        <div class="app-card">
+          <div class="app-icon">📷</div>
+          <div class="app-info">
+            <div class="app-name">Duplicate Photo Cleaner</div>
+            <div class="app-desc">Find and remove duplicate &amp; similar photos to free up storage — fast scanning, no intrusive ads.</div>
+          </div>
+          <span class="app-status">In Dev</span>
+        </div>
       </div>
     </section>
 
     <section>
       <h2>Contact</h2>
-      <p class="contact">
-        <a href="mailto:yuandev.studio@gmail.com">yuandev.studio@gmail.com</a>
-      </p>
+      <div class="contact-row">
+        <a class="contact-link" href="mailto:yuandev.studio@gmail.com">✉️ yuandev.studio@gmail.com</a>
+      </div>
     </section>
 
     <footer>
-      &copy; 2026 YuanDev Studio. All rights reserved.
+      <span>&copy; 2026 YuanDev Studio</span>
+      <span>Built with care</span>
     </footer>
   </div>
 </body>
